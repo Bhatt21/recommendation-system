@@ -46,7 +46,7 @@ class GooglePlacesAPI:
 if __name__ == "__main__":
     api_key = "YOUR_GOOGLE_PLACES_API_KEY"
     google_places = GooglePlacesAPI(api_key)
-    place_id = "ChIJbz8lP_Z544kRBFV6ZMsNgKI"
+    place_id = "KEY"
     radius = 3000  # 3 km
     nearby_places = google_places.get_nearby_places(place_id, radius=radius)
     for place in nearby_places:
