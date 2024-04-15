@@ -2,7 +2,7 @@ import requests
 
 class GooglePlacesAPI:
     def __init__(self, api_key):
-        self.api_key = "AIzaSyBdrddLVCSnUNqKxdnS8mUxxlTUruVGCJQ"
+        self.api_key = "KEY"
 
     def get_nearby_places(self, location, type, radius=3000, types=None):
         """
