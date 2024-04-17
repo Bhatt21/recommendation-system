@@ -2,7 +2,8 @@ import requests
 
 class GooglePlacesAPI:
     def __init__(self, api_key):
-        self.api_key = "KEY"
+        self.api_key = api_key
+    
 
     def get_nearby_places(self, location, type, radius=3000, types=None):
         """
@@ -17,6 +18,7 @@ class GooglePlacesAPI:
             list: A list of nearby places as dictionaries.
         """
         base_url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+        
         params = {
             "location": location,
             "radius": radius,
@@ -33,21 +35,7 @@ class GooglePlacesAPI:
             sorted_results = sorted(data.get("results", []), key=lambda x: x.get("rating", 0), reverse=True)
             # Limit the results to 10 places
             top_10_places = sorted_results[:10]
-            print(len(top_10_places))
-            # Print or do further processing with the top 10 places
-            for place in top_10_places:
-                print(place["name"])
+            return top_10_places
         else:
             error_message = data.get("error_message", "Unknown error")
             raise Exception(f"Error: {error_message}")
-
-
-# Example usage:
-if __name__ == "__main__":
-    api_key = "YOUR_GOOGLE_PLACES_API_KEY"
-    google_places = GooglePlacesAPI(api_key)
-    place_id = "KEY"
-    radius = 3000  # 3 km
-    nearby_places = google_places.get_nearby_places(place_id, radius=radius)
-    for place in nearby_places:
-        print(place["name"], place.get("vicinity", ""))
