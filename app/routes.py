@@ -6,6 +6,16 @@ from app import redis_connection
 from app.recomendation import GooglePlacesAPI
 from dotenv import dotenv_values
 
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import unpad
+import base64
+
+def decrypt_aes(encrypted_data, key="VacayBuddy Sightseeing Search"):
+    key = key.encode('utf-8')
+    cipher = AES.new(key, AES.MODE_CBC, b'VacayBuddy Sightseeing Search')
+    decrypted = unpad(cipher.decrypt(base64.b64decode(encrypted_data)), AES.block_size)
+    return decrypted.decode('utf-8')
+
 env_vars = dotenv_values(".env")
 
 def extract_location(data):
@@ -21,10 +31,8 @@ def index():
 @app.route('/get_recommendation', methods=['POST'])
 def get_recommendation():
     # Parse recommendation ID from request body
-    print("this is called")
     data = request.get_json()
-    recommendation_id = data.get('recommendation_id')
-    print(recommendation_id)
+    recommendation_id = decrypt_aes(data.get('recommendation_id'))
     if recommendation_id is None:
         return jsonify({'error': 'No recommendation ID provided'}), 400
     try:
